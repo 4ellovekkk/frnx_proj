@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/httpRequests" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/.galleon" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/.installation" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/.well-known" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/appclient" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/docs" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/domain" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/modules" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/configuration/standalone_xml_history/snapshot" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/data/kernel" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/data/timer-service-data" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/data/tx-object-store" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/deployments" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/tmp/auth" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/tmp/installation-manager" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/tmp/vfs" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/welcome-content" />
+    </content>
+  </component>
+</module>
