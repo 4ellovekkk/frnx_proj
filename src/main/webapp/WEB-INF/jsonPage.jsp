@@ -2,6 +2,12 @@
 <html>
 <head>
   <title>JSON Test</title>
+  <style>
+    form * {
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 <button onclick="sendCorrectJson()">Send Correct JSON</button>

@@ -35,8 +35,11 @@ public class PaymentRequest {
     @NotBlank(message = "Card Type is required")
     private String card_type;
 
-    @NotBlank(message = "Authorization Code is required")
+
+    @Pattern(regexp = "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$", message = "Authorization Code must be a valid UUID")
+    @NotBlank(message = "Authorization Code cannot be empty")
     private String authorization_code;
+
 
     @NotBlank(message = "Payment Date is required")
     private String payment_date;
