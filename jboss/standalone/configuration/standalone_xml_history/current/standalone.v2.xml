@@ -516,7 +516,7 @@
     </socket-binding-group>
     <deployments>
         <deployment name="frnx_proj" runtime-name="frnx_proj.war" enabled="false">
-            <fs-exploded path="/Users/vydra/Desktop/frnx_proj/target/f/frnx_proj"/>
+            <fs-exploded path="/Users/vydra/Desktop/frnx_proj/target/frnx_proj"/>
         </deployment>
     </deployments>
 </server>

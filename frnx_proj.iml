@@ -13,6 +13,7 @@
       <excludeFolder url="file://$MODULE_DIR$/jboss/domain" />
       <excludeFolder url="file://$MODULE_DIR$/jboss/modules" />
       <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/configuration/standalone_xml_history/snapshot" />
+      <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/data" />
       <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/data/kernel" />
       <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/data/timer-service-data" />
       <excludeFolder url="file://$MODULE_DIR$/jboss/standalone/data/tx-object-store" />
