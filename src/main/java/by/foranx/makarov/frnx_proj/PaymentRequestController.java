@@ -7,6 +7,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 import java.util.Map;
@@ -21,8 +23,13 @@ import java.io.IOException;
 @Path("/")
 public class PaymentRequestController {
 
+    private static final Logger logger = LoggerFactory.getLogger(PaymentRequestController.class);
+
     @Inject
     private Validator validator;
+
+    @Inject
+    private PaymentRequestRepository paymentRequestRepository;
 
     @Context
     private HttpServletRequest request;
@@ -33,16 +40,21 @@ public class PaymentRequestController {
     @GET
     @Path("/json")
     @Produces(MediaType.TEXT_HTML)
-    public void getJsonPage() throws IOException {
+    public String getJsonPage() throws IOException {
+        logger.info("Redirecting to JSON page");
         response.sendRedirect(request.getContextPath() + "/jsp/jsonPage");
+        return null; // TODO replace this stub to something useful
     }
 
     @POST
     @Path("/validate")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response validateJson(@Valid PaymentRequest paymentRequest) {
+    public Response validateAndSaveJson(@Valid PaymentRequest paymentRequest) {
+        logger.info("Received request to validate and save JSON: {}", paymentRequest);
+
         if (paymentRequest == null) {
+            logger.error("Invalid JSON payload: paymentRequest is null");
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(Map.of("Error", "1", "MSG", "Invalid JSON payload"))
                     .build();
@@ -51,12 +63,15 @@ public class PaymentRequestController {
         Set<ConstraintViolation<PaymentRequest>> violations = validator.validate(paymentRequest);
 
         if (violations.isEmpty()) {
+            paymentRequestRepository.save(paymentRequest);
+            logger.info("Successfully saved payment request: {}", paymentRequest);
             return Response.ok(Map.of("Error", "0", "MSG", "OK")).build();
         } else {
             StringBuilder violationMessages = new StringBuilder();
             for (ConstraintViolation<PaymentRequest> violation : violations) {
                 violationMessages.append(violation.getMessage()).append("; ");
             }
+            logger.error("Validation failed for payment request: {} - Violations: {}", paymentRequest, violationMessages.toString());
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(Map.of("Error", "1", "MSG", violationMessages.toString()))
                     .build();
@@ -67,24 +82,29 @@ public class PaymentRequestController {
     @Path("/validate")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response validateJson(String json) {
+    public Response validateAndSaveJson(String json) {
+        logger.info("Received raw JSON to validate and save: {}", json);
         try {
             PaymentRequest paymentRequest = new ObjectMapper().readValue(json, PaymentRequest.class);
 
             Set<ConstraintViolation<PaymentRequest>> violations = validator.validate(paymentRequest);
 
             if (violations.isEmpty()) {
+                paymentRequestRepository.save(paymentRequest);
+                logger.info("Successfully saved payment request from raw JSON: {}", paymentRequest);
                 return Response.ok(Map.of("Error", "0", "MSG", "OK")).build();
             } else {
                 StringBuilder violationMessages = new StringBuilder();
                 for (ConstraintViolation<PaymentRequest> violation : violations) {
                     violationMessages.append(violation.getMessage()).append("; ");
                 }
+                logger.error("Validation failed for raw JSON: {} - Violations: {}", json, violationMessages.toString());
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(Map.of("Error", "1", "MSG", violationMessages.toString()))
                         .build();
             }
         } catch (IOException e) {
+            logger.error("Malformed JSON request: {}", json, e);
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(Map.of("Error", "1", "MSG", "Malformed JSON request"))
                     .build();

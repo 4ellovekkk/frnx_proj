@@ -1,11 +1,18 @@
 package by.foranx.makarov.frnx_proj;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public class PaymentRequest {
+import java.io.Serializable;
 
+@Entity
+@Table(name = "payment_requests")
+public class PaymentRequest implements Serializable {
+    @Id
     @NotBlank(message = "Request ID is required")
     private String request_id;
 

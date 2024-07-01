@@ -1,0 +1,24 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="PaymentRequestPU">
+        <class>by.foranx.makarov.frnx_proj.PaymentRequest</class>
+        <properties>
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:sqlserver://localhost:1433;database=frnx_proj"/>
+            <property name="jakarta.persistence.jdbc.user" value="SA"/>
+            <property name="jakarta.persistence.jdbc.password" value="MyPassword123#"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.type" value="trace"/>
+            <property name="hibernate.jdbc.batch_size" value="0"/>
+            <property name="hibernate.connection.autocommit" value="true"/>
+            <property name="hibernate.flushMode" value="AUTO"/>
+        </properties>
+    </persistence-unit>
+</persistence>
