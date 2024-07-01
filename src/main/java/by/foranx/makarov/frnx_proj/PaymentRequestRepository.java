@@ -19,10 +19,9 @@ public class PaymentRequestRepository {
 
     @Transactional
     public void save(PaymentRequest paymentRequest) {
-        logger.info("Attempting to save PaymentRequest: {}", paymentRequest);
+        logger.info("Saving PaymentRequest: {}", paymentRequest);
         try {
             entityManager.persist(paymentRequest);
-            entityManager.flush(); // Ensuring data is flushed to the database
             logger.info("Successfully saved PaymentRequest: {}", paymentRequest);
         } catch (Exception e) {
             logger.error("Error saving PaymentRequest: {}", paymentRequest, e);
@@ -46,7 +45,6 @@ public class PaymentRequestRepository {
         logger.info("Updating PaymentRequest: {}", paymentRequest);
         try {
             entityManager.merge(paymentRequest);
-            entityManager.flush(); // Ensuring data is flushed to the database
             logger.info("Successfully updated PaymentRequest: {}", paymentRequest);
         } catch (Exception e) {
             logger.error("Error updating PaymentRequest: {}", paymentRequest, e);
@@ -61,7 +59,6 @@ public class PaymentRequestRepository {
             PaymentRequest paymentRequest = findById(requestId);
             if (paymentRequest != null) {
                 entityManager.remove(paymentRequest);
-                entityManager.flush(); // Ensuring data is flushed to the database
                 logger.info("Successfully deleted PaymentRequest with ID: {}", requestId);
             } else {
                 logger.warn("No PaymentRequest found with ID: {}", requestId);
