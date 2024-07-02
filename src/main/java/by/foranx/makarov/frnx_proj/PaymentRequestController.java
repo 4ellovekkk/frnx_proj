@@ -42,6 +42,8 @@ public class PaymentRequestController {
     @Produces(MediaType.TEXT_HTML)
     public String getJsonPage() throws IOException {
         logger.info("Redirecting to JSON page");
+        logger.info("starting database test");
+        paymentRequestRepository.findAll();
         response.sendRedirect(request.getContextPath() + "/jsp/jsonPage");
         return null; // TODO replace this stub to something useful
     }
@@ -60,6 +62,16 @@ public class PaymentRequestController {
                     .build();
         }
 
+        // Check for duplicate requestId
+        PaymentRequest existingRequest = paymentRequestRepository.findById(paymentRequest.getRequestId());
+        if (existingRequest != null) {
+            logger.error("Duplicate request ID found: {}", paymentRequest.getRequestId());
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(Map.of("Error", "1", "MSG", "Duplicate request ID"))
+                    .build();
+        }
+
+        // Validate the paymentRequest object
         Set<ConstraintViolation<PaymentRequest>> violations = validator.validate(paymentRequest);
 
         if (violations.isEmpty()) {
@@ -87,9 +99,19 @@ public class PaymentRequestController {
         try {
             PaymentRequest paymentRequest = new ObjectMapper().readValue(json, PaymentRequest.class);
 
+            // Check if a PaymentRequest with the same requestId already exists
+            PaymentRequest existingRequest = paymentRequestRepository.findById(paymentRequest.getRequestId());
+            if (existingRequest != null) {
+                logger.error("Duplicate request ID found in raw JSON: {}", paymentRequest.getRequestId());
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity(Map.of("Error", "1", "MSG", "Duplicate request ID"))
+                        .build();
+            }
+
             Set<ConstraintViolation<PaymentRequest>> violations = validator.validate(paymentRequest);
 
             if (violations.isEmpty()) {
+                // Save the paymentRequest
                 paymentRequestRepository.save(paymentRequest);
                 logger.info("Successfully saved payment request from raw JSON: {}", paymentRequest);
                 return Response.ok(Map.of("Error", "0", "MSG", "OK")).build();
@@ -108,6 +130,11 @@ public class PaymentRequestController {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(Map.of("Error", "1", "MSG", "Malformed JSON request"))
                     .build();
+        } catch (Exception e) {
+            logger.error("Error processing JSON request: {}", json, e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Map.of("Error", "1", "MSG", "Internal Server Error"))
+                    .build();
         }
-    }
-}
+    }}
+

@@ -30,6 +30,7 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <datasource-mapping>
+          <factory-entry name="PaymentRequest" value="602b8bf3-41b6-4e4a-9067-be0b2a88a807" />
           <factory-entry name="PaymentRequestPU" value="70bd2fc0-8440-4845-950a-40bdc5f14410" />
         </datasource-mapping>
         <naming-strategy-map />
