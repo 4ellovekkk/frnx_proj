@@ -515,6 +515,9 @@
         </outbound-socket-binding>
     </socket-binding-group>
     <deployments>
+        <deployment name="frnx_proj-1.0-SNAPSHOT" runtime-name="frnx_proj-1.0-SNAPSHOT.war">
+            <fs-exploded path="/Users/vydra/Desktop/frnx_proj/target/frnx_proj-1.0-SNAPSHOT"/>
+        </deployment>
         <deployment name="frnx_proj" runtime-name="frnx_proj.war" enabled="false">
             <fs-exploded path="/Users/vydra/Desktop/frnx_proj/target/frnx_proj"/>
         </deployment>

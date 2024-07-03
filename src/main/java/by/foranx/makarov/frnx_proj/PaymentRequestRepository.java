@@ -16,26 +16,12 @@ public class PaymentRequestRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
+
     @Transactional
     public void save(PaymentRequest paymentRequest) {
         logger.info("Saving PaymentRequest: {}", paymentRequest);
         try {
-            String sql = "INSERT INTO payment_requests (request_id, loan_id, terminal_id, merchant_id, nspc_trans_id, amount, commission_amount, payment_type, card_type, authorization_code, payment_date, operation_number) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            entityManager.createNativeQuery(sql)
-                    .setParameter(1, paymentRequest.getRequestId())
-                    .setParameter(2, paymentRequest.getLoanId())
-                    .setParameter(3, paymentRequest.getTerminalId())
-                    .setParameter(4, paymentRequest.getMerchantId())
-                    .setParameter(5, paymentRequest.getNspcTransId())
-                    .setParameter(6, paymentRequest.getAmount())
-                    .setParameter(7, paymentRequest.getCommissionAmount())
-                    .setParameter(8, paymentRequest.getPaymentType())
-                    .setParameter(9, paymentRequest.getCardType())
-                    .setParameter(10, paymentRequest.getAuthorizationCode())
-                    .setParameter(11, paymentRequest.getPaymentDate())
-                    .setParameter(12, paymentRequest.getOperationNumber())
-                    .executeUpdate();
+            entityManager.persist(paymentRequest);
             logger.info("Successfully saved PaymentRequest: {}", paymentRequest);
         } catch (Exception e) {
             logger.error("Error saving PaymentRequest: {}", paymentRequest, e);
